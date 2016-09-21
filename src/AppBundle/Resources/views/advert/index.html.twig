@@ -1,7 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Advert list</h1>
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block platform_body %}
+    <h2>Liste des annonces</h2>
 
     <table>
         <thead>
