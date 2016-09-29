@@ -27,6 +27,19 @@
                 Participer au MOOC »
             </a>
         </p>
+        <p>
+            Langues :
+            {% if(app.request.locale == 'fr') %}
+                FR |
+            {% else %}
+                <a href="{{ path('app_select_lang', {'langue' : 'fr'}) }}">FR</a> |
+            {% endif %}
+            {% if(app.request.locale == 'en') %}
+                EN
+            {% else %}
+                <a href="{{ path('app_select_lang', {'langue' : 'en'}) }}">EN</a>
+            {% endif %}
+        </p>
     </div>
 
     <div class="row">

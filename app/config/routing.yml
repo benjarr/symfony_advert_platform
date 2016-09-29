@@ -5,3 +5,7 @@ app:
 app_platform:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /platform
+
+app_select_lang:
+    path:  /select_lang/{langue}
+    defaults: { _controller: AppBundle:Default:selectLang }
