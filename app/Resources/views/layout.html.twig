@@ -22,35 +22,35 @@
             Ce projet est propulsé par Symfony,
             et construit grâce au MOOC OpenClassrooms et SensioLabs.
         </p>
-        <p>
+        <div class="row">
             <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
                 Participer au MOOC »
             </a>
-        </p>
-        <p>
-            Langues :
-            {% if(app.request.locale == 'fr') %}
-                FR |
-            {% else %}
-                <a href="{{ path('app_select_lang', {'langue' : 'fr'}) }}">FR</a> |
-            {% endif %}
-            {% if(app.request.locale == 'en') %}
-                EN
-            {% else %}
-                <a href="{{ path('app_select_lang', {'langue' : 'en'}) }}">EN</a>
-            {% endif %}
-        </p>
+            <div class="small text-right">
+                Langues :
+                {% if(app.request.locale == 'fr') %}
+                    FR |
+                {% else %}
+                    <a href="{{ path('app_select_lang', {'langue' : 'fr'}) }}">FR</a> |
+                {% endif %}
+                {% if(app.request.locale == 'en') %}
+                    EN
+                {% else %}
+                    <a href="{{ path('app_select_lang', {'langue' : 'en'}) }}">EN</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
     <div class="row">
         <div id="menu" class="col-md-3">
-            <h3>Les annonces</h3>
+            <h5>Les annonces</h5>
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="{{ path('advert_index') }}">Accueil</a></li>
                 <li><a href="{{ path('advert_new') }}">Ajouter une annonce</a></li>
             </ul>
 
-            <h4>Dernières annonces</h4>
+            <h5>Dernières annonces</h5>
             {#{{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}#}
         </div>
         <div id="content" class="col-md-9">
