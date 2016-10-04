@@ -20,10 +20,10 @@ class AdvertController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $adverts = $em->getRepository('AppBundle:Advert')->findAll();
+        $listAdverts = $em->getRepository('AppBundle:Advert')->findAll();
 
         return $this->render('AppBundle:advert:index.html.twig', array(
-            'adverts' => $adverts,
+            'listAdverts' => $listAdverts,
         ));
     }
 
@@ -120,5 +120,16 @@ class AdvertController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function menuAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $listAdverts = $em->getRepository('AppBundle:Advert')->findAll();
+
+        return $this->render('AppBundle:advert:menu.html.twig', array(
+            'listAdverts' => $listAdverts
+        ));
     }
 }

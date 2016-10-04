@@ -7,43 +7,17 @@
 {% block platform_body %}
     <h2>Liste des annonces</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Content</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for advert in adverts %}
-            <tr>
-                <td><a href="{{ path('advert_show', { 'id': advert.id }) }}">{{ advert.id }}</a></td>
-                <td>{% if advert.date %}{{ advert.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ advert.title }}</td>
-                <td>{{ advert.author }}</td>
-                <td>{{ advert.content }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('advert_show', { 'id': advert.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('advert_edit', { 'id': advert.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
     <ul>
-        <li>
-            <a href="{{ path('advert_new') }}">Create a new entry</a>
-        </li>
+        {% for advert in listAdverts %}
+            <li>
+                <a href="{{ path('advert_show', {'id': advert.id}) }}">
+                    {{ advert.title }}
+                </a>
+                par {{ advert.author }},
+                le {{ advert.date|date('d/m/Y') }}
+            </li>
+        {% else %}
+            <li>Pas d'annonces trouvées.</li>
+        {% endfor %}
     </ul>
 {% endblock %}

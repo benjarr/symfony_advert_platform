@@ -1,44 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Advert</h1>
+{% block title %}
+    Lecture d'une annonce | {{ parent() }}
+{% endblock %}
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ advert.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{% if advert.date %}{{ advert.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ advert.title }}</td>
-            </tr>
-            <tr>
-                <th>Author</th>
-                <td>{{ advert.author }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ advert.content }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block platform_body %}
+    <h4>{{ advert.title }}</h4>
+    <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
-    <ul>
-        <li>
-            <a href="{{ path('advert_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('advert_edit', { 'id': advert.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <div class="well">
+        {{ advert.content }}
+    </div>
+
+    <div style="display: inline-block;">
+        <a href="{{ path('advert_index') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à la liste
+        </a>
+    </div>
+    <div style="display: inline-block;">
+        <a href="{{ path('advert_edit', { 'id': advert.id }) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Modifier l'annonce
+        </a>
+    </div>
+    <div style="display: inline-block;">
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Supprimer l'annonce
+        </button>
+        {{ form_end(delete_form) }}
+    </div>
 {% endblock %}
