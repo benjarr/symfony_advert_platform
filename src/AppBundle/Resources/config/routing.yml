@@ -1,24 +1,27 @@
 advert_index:
-    path:     /
-    defaults: { _controller: "AppBundle:Advert:index" }
-    methods:  GET
+    path:     /{page}
+    defaults: { _controller: "AppBundle:Advert:index", page: 1 }
+    requirements:
+        page: \d*
 
 advert_show:
-    path:     /{id}/show
+    path:     /show/{id}
     defaults: { _controller: "AppBundle:Advert:show" }
-    methods:  GET
+    requirements:
+        id: \d+
 
 advert_new:
     path:     /new
     defaults: { _controller: "AppBundle:Advert:new" }
-    methods:  [GET, POST]
 
 advert_edit:
-    path:     /{id}/edit
+    path:     /edit/{id}
     defaults: { _controller: "AppBundle:Advert:edit" }
-    methods:  [GET, POST]
+    requirements:
+        id: \d+
 
 advert_delete:
-    path:     /{id}/delete
+    path:     /delete/{id}
     defaults: { _controller: "AppBundle:Advert:delete" }
-    methods:  DELETE
+    requirements:
+        id: \d+

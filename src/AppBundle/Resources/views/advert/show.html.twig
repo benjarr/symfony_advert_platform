@@ -25,11 +25,9 @@
         </a>
     </div>
     <div style="display: inline-block;">
-        {{ form_start(delete_form) }}
-        <button type="submit" class="btn btn-danger">
+        <a href="{{ path('advert_delete', { 'id': advert.id }) }}" class="btn btn-danger">
             <i class="glyphicon glyphicon-trash"></i>
             Supprimer l'annonce
-        </button>
-        {{ form_end(delete_form) }}
+        </a>
     </div>
 {% endblock %}

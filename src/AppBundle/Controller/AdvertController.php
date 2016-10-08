@@ -5,19 +5,19 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Advert;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Advert controller.
- *
  */
 class AdvertController extends Controller
 {
     /**
      * Lists all Advert entities.
-     *
      */
-    public function indexAction()
+    public function indexAction($page)
     {
+        if ($page < 1) throw new NotFoundHttpException('Page inexistante.');
         $em = $this->getDoctrine()->getManager();
 
         $listAdverts = $em->getRepository('AppBundle:Advert')->findAll();
@@ -29,17 +29,19 @@ class AdvertController extends Controller
 
     /**
      * Creates a new Advert entity.
-     *
      */
     public function newAction(Request $request)
     {
         $advert = new Advert();
         $form = $this->createForm('AppBundle\Form\AdvertType', $advert);
 
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($advert);
-            $em->flush();
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        {
+            $this->get('app.advert_manager')->saveAdvert($advert);
+
+            $this->get('session')->getFlashBag()->add('notice',
+                $this->get('translator')->trans('Annonce bien enregistrée')
+            );
 
             return $this->redirectToRoute('advert_show', array('id' => $advert->getId()));
         }
@@ -52,74 +54,62 @@ class AdvertController extends Controller
 
     /**
      * Finds and displays a Advert entity.
-     *
      */
-    public function showAction(Advert $advert)
+    public function showAction($id)
     {
-        $deleteForm = $this->createDeleteForm($advert);
+        if (!$advert = $this->get('app.advert_manager')->loadAdvert($id)) {
+            // This advert does not exist.
+            throw new NotFoundHttpException($this->get('translator')->trans('Cette annonce n\'existe pas.'));
+        }
 
         return $this->render('AppBundle:advert:show.html.twig', array(
             'advert' => $advert,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Displays a form to edit an existing Advert entity.
-     *
      */
-    public function editAction(Request $request, Advert $advert)
+    public function editAction($id, Request $request)
     {
-        $deleteForm = $this->createDeleteForm($advert);
+        if (!$advert = $this->get('app.advert_manager')->loadAdvert($id)) {
+            throw new NotFoundHttpException(
+                $this->get('translator')->trans('Cette annonce n\'existe pas.')
+            );
+        }
+
         $editForm = $this->createForm('AppBundle\Form\AdvertType', $advert);
 
         if ($request->isMethod('POST') && $editForm->handleRequest($request)->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($advert);
-            $em->flush();
+            $this->get('app.advert_manager')->saveAdvert($advert);
 
-            return $this->redirectToRoute('advert_edit', array('id' => $advert->getId()));
+            $this->get('session')->getFlashBag()->add('notice',
+                $this->get('translator')->trans('Annonce bien modifiée')
+            );
+
+            return $this->redirectToRoute('advert_show', array('id' => $advert->getId()));
         }
 
         return $this->render('AppBundle:advert:edit.html.twig', array(
             'advert' => $advert,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Deletes a Advert entity.
-     *
      */
-    public function deleteAction(Request $request, Advert $advert)
+    public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($advert);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($advert);
-            $em->flush();
+        if (!$advert = $this->get('app.advert_manager')->loadAdvert($id)) {
+            throw new NotFoundHttpException(
+                $this->get('translator')->trans('Cette annonce n\'existe pas.')
+            );
         }
 
-        return $this->redirectToRoute('advert_index');
-    }
+        $this->get('app.advert_manager')->removeAdvert($advert);
 
-    /**
-     * Creates a form to delete a Advert entity.
-     *
-     * @param Advert $advert The Advert entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Advert $advert)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('advert_delete', array('id' => $advert->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        return $this->redirectToRoute('advert_index');
     }
 
     public function menuAction()
