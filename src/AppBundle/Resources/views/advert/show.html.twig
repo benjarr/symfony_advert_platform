@@ -5,8 +5,27 @@
 {% endblock %}
 
 {% block platform_body %}
-    <h4>{{ advert.title }}</h4>
-    <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+    <div class="media">
+        <div class="media-left media-middle">
+            {% if advert.image != null %}
+                <img
+                    style="max-height: 20px;"
+                    src="{{ asset(advert.image.webPath) }}"
+                    alt="{{ advert.image.alt }}"
+                />
+            {% else %}
+                <img
+                    style="max-height: 96px;"
+                    src="{{ asset('uploads/img/no_image_available.jpg') }}"
+                    alt="No image available"
+                />
+            {% endif %}
+        </div>
+        <div class="media-body media-middle">
+            <h4 class="media-heading">{{ advert.title }}</h4>
+            <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+        </div>
+    </div>
 
     <div class="well">
         {{ advert.content }}
