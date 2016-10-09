@@ -125,7 +125,9 @@ class Image
      */
     public function preUpload()
     {
-        if (null === $this->file) return;
+        if (null === $this->file) {
+            return;
+        }
 
         // On devrait renommer cet attribut en "extension", plutôt que "url"
         $this->url = $this->file->guessExtension();
@@ -141,7 +143,9 @@ class Image
     public function upload()
     {
         // Si jamais il n'y a pas de fichier (champ facultatif), on ne fait rien
-        if (null === $this->file) return;
+        if (null === $this->file) {
+            return;
+        }
 
         // Si on avait un ancien fichier, on le supprime
         if (null !== $this->tempFilename) {
@@ -185,7 +189,7 @@ class Image
     public function getUploadRootDir()
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
     public function getWebPath()

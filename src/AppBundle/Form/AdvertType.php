@@ -19,6 +19,7 @@ class AdvertType extends AbstractType
     {
         $builder
             ->add('image', ImageType::class, array(
+                'label'    => false,
                 'required' => false
             ))
             ->add('title')
