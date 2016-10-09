@@ -1,6 +1,8 @@
 advert_index:
     path:     /{page}
-    defaults: { _controller: "AppBundle:Advert:index", page: 1 }
+    defaults:
+        _controller: AppBundle:Advert:index
+        page:        1
     requirements:
         page: \d*
 
